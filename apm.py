@@ -45,7 +45,7 @@ def main(argv=None):
     dc_step = (dc_max - dc_min) / 100.0
     dc_roll = (dc_max - dc_min) / 2.0
     dc_pitch = (dc_max - dc_min) / 2.0
-    dc_throttle = 0.0
+    dc_throttle = dc_min
     dc_yaw = (dc_max - dc_min) / 2.0
 
     p_roll = GPIO.PWM(12, 50)  # channel=12 frequency=50Hz
