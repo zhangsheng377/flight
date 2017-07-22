@@ -23,18 +23,6 @@ def read_single_keypress():
     return ret
 
 
-def dc_change(dc, type):
-    if (type == '-'):
-        dc -= dc_step
-    elif (type == '+'):
-        dc += dc_step
-    if (dc < dc_min):
-        dc = dc_min
-    elif (dc > dc_max):
-        dc = dc_max
-    return dc
-
-
 def pwm_update(p, dc):
     p.ChangeDutyCycle(dc)
 
@@ -68,6 +56,17 @@ def main(argv=None):
     p_throttle.start(dc_throttle)
     p_yaw = GPIO.PWM(22, 50)
     p_yaw.start(dc_yaw)
+
+    def dc_change(dc, type):
+        if (type == '-'):
+            dc -= dc_step
+        elif (type == '+'):
+            dc += dc_step
+        if (dc < dc_min):
+            dc = dc_min
+        elif (dc > dc_max):
+            dc = dc_max
+        return dc
 
     while True:
         ch = read_single_keypress()
