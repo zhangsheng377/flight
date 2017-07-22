@@ -39,7 +39,11 @@ def pwm_update(p, dc):
     p.ChangeDutyCycle(dc)
 
 
-def main():
+def main(argv=None):
+    if argv is None:
+        import sys
+        argv = sys.argv
+
     import RPi.GPIO as GPIO
 
     GPIO.setmode(GPIO.BOARD)
