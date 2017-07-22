@@ -75,20 +75,28 @@ def main(argv=None):
             break
         if (ch == 'w'):
             dc_pitch = dc_change(dc_pitch, '-')
+            print("dc_pitch:", dc_pitch)
         elif (ch == 's'):
             dc_pitch = dc_change(dc_pitch, '+')
+            print("dc_pitch:", dc_pitch)
         elif (ch == 'a'):
             dc_roll = dc_change(dc_roll, '-')
+            print("dc_roll:", dc_roll)
         elif (ch == 'd'):
             dc_roll = dc_change(dc_roll, '+')
+            print("dc_roll:", dc_roll)
         elif (ch == 'h'):
             dc_throttle = dc_change(dc_throttle, '-')
+            print("dc_throttle:", dc_throttle)
         elif (ch == 'j'):
             dc_throttle = dc_change(dc_throttle, '+')
+            print("dc_throttle:", dc_throttle)
         elif (ch == 'k'):
             dc_yaw = dc_change(dc_yaw, '+')
+            print("dc_yaw:", dc_yaw)
         elif (ch == 'l'):
             dc_yaw = dc_change(dc_yaw, '-')
+            print("dc_yaw:", dc_yaw)
         pwm_update(p_roll, dc_roll)
         pwm_update(p_pitch, dc_pitch)
         pwm_update(p_throttle, dc_throttle)
