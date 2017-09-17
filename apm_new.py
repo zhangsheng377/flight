@@ -1,7 +1,5 @@
 import RPIO
-
-
-# from RPIO import PWM
+from RPIO import PWM
 
 
 def read_single_keypress():
@@ -56,7 +54,7 @@ def main(argv=None):
     RPIO.setup(p_throttle, RPIO.OUT)
     RPIO.setup(p_yaw, RPIO.OUT)
 
-    servo = RPIO.PWM.Servo(dma_channel, subcycle_time_us, pulse_incr_us)
+    servo = PWM.Servo(dma_channel, subcycle_time_us, pulse_incr_us)
 
     dc_min = 5.0 - 0.25
     dc_max = 10.0 - 0.25
