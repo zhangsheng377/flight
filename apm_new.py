@@ -35,12 +35,11 @@ p_yaw = 22
 
 dma_channel = 0
 subcycle_time_us = 20000
-pulse_incr_us = 4
+pulse_incr_us = 10
 
 
 def pwm_update(servo, pin, dc):
-    # dcc = int(dc * subcycle_time_us / 100 / pulse_incr_us) * pulse_incr_us
-    dcc = int(subcycle_time_us / 100 * dc)
+    dcc = int(dc * subcycle_time_us / 100 / pulse_incr_us) * pulse_incr_us
     servo.set_servo(pin, dcc)
 
 
