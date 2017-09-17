@@ -35,7 +35,11 @@ pulse_incr_us = 3
 
 
 def pwm_update(servo, pin, dc):
+    print("pwm_update dc : ", dc)
+    print("pwm_update dc*subcycle_time_us : ", dc * subcycle_time_us)
+    print("pwm_update dc*subcycle_time_us/100 : ", dc * subcycle_time_us / 100)
     dcc = int(dc * subcycle_time_us / 100 / pulse_incr_us) * pulse_incr_us
+    print("pwm_update dcc pin : ", dcc, pin)
     servo.set_servo(pin, dcc)
 
 
@@ -53,6 +57,7 @@ def main(argv=None):
 
     from RPIO import PWM
     servo = PWM.Servo(dma_channel, subcycle_time_us, pulse_incr_us)
+    print("servo init success")
 
     dc_min = 5.0 - 0.25
     dc_max = 10.0 - 0.25
@@ -73,44 +78,20 @@ def main(argv=None):
             dc = dc_max
         return dc
 
-    while True:
-        ch = read_single_keypress()
-        print(ch, ord(ch))
-        if (ch == '\x1b'):  # cannot display
-            break
-        if (ch == 'w'):
-            dc_pitch = dc_change(dc_pitch, '-')
-            print("dc_pitch:", dc_pitch)
-        elif (ch == 's'):
-            dc_pitch = dc_change(dc_pitch, '+')
-            print("dc_pitch:", dc_pitch)
-        elif (ch == 'a'):
-            dc_roll = dc_change(dc_roll, '-')
-            print("dc_roll:", dc_roll)
-        elif (ch == 'd'):
-            dc_roll = dc_change(dc_roll, '+')
-            print("dc_roll:", dc_roll)
-        elif (ch == 'h'):
-            dc_throttle = dc_change(dc_throttle, '-')
-            print("dc_throttle:", dc_throttle)
-        elif (ch == 'j'):
-            dc_throttle = dc_change(dc_throttle, '+')
-            print("dc_throttle:", dc_throttle)
-        elif (ch == 'k'):
-            dc_yaw = dc_change(dc_yaw, '+')
-            print("dc_yaw:", dc_yaw)
-        elif (ch == 'l'):
-            dc_yaw = dc_change(dc_yaw, '-')
-            print("dc_yaw:", dc_yaw)
-        pwm_update(servo, p_roll, dc_roll)
-        pwm_update(servo, p_pitch, dc_pitch)
-        pwm_update(servo, p_throttle, dc_throttle)
-        pwm_update(servo, p_yaw, dc_yaw)
+    print("pwm_update start")
+    pwm_update(servo, p_roll, dc_roll)
+    print("pwm_update start1")
+    pwm_update(servo, p_pitch, dc_pitch)
+    pwm_update(servo, p_throttle, dc_throttle)
+    pwm_update(servo, p_yaw, dc_yaw)
+    print("pwm_update end")
 
-        servo.stop_servo(p_roll)
-        servo.stop_servo(p_pitch)
-        servo.stop_servo(p_throttle)
-        servo.stop_servo(p_yaw)
+    print("stop_servo start")
+    servo.stop_servo(p_roll)
+    servo.stop_servo(p_pitch)
+    servo.stop_servo(p_throttle)
+    servo.stop_servo(p_yaw)
+    print("stop_servo end")
 
 
 if __name__ == "__main__":
