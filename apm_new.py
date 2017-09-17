@@ -1,3 +1,9 @@
+import RPIO
+
+
+# from RPIO import PWM
+
+
 def read_single_keypress():
     import termios, fcntl, sys, os
     fd = sys.stdin.fileno()
@@ -24,10 +30,10 @@ def read_single_keypress():
 
 
 # broad 12,16,18,22 = bcm 18,23,24,25
-p_roll = 18
-p_pitch = 23
-p_throttle = 24
-p_yaw = 25
+p_roll = 12
+p_pitch = 16
+p_throttle = 18
+p_yaw = 22
 
 dma_channel = 0
 subcycle_time_us = 20000
@@ -44,15 +50,13 @@ def main(argv=None):
         import sys
         argv = sys.argv
 
-    import RPi.GPIO as GPIO
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(p_roll, GPIO.OUT)
-    GPIO.setup(p_pitch, GPIO.OUT)
-    GPIO.setup(p_throttle, GPIO.OUT)
-    GPIO.setup(p_yaw, GPIO.OUT)
+    RPIO.setmode(RPIO.BOARD)
+    RPIO.setup(p_roll, RPIO.OUT)
+    RPIO.setup(p_pitch, RPIO.OUT)
+    RPIO.setup(p_throttle, RPIO.OUT)
+    RPIO.setup(p_yaw, RPIO.OUT)
 
-    from RPIO import PWM
-    servo = PWM.Servo(dma_channel, subcycle_time_us, pulse_incr_us)
+    servo = RPIO.PWM.Servo(dma_channel, subcycle_time_us, pulse_incr_us)
 
     dc_min = 5.0 - 0.25
     dc_max = 10.0 - 0.25
