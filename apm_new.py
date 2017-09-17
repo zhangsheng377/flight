@@ -1,4 +1,4 @@
-import RPIO
+# import RPIO
 from RPIO import PWM
 
 
@@ -35,11 +35,12 @@ p_yaw = 22
 
 dma_channel = 0
 subcycle_time_us = 20000
-pulse_incr_us = 3
+pulse_incr_us = 4
 
 
 def pwm_update(servo, pin, dc):
-    dcc = int(dc * subcycle_time_us / 100 / pulse_incr_us) * pulse_incr_us
+    # dcc = int(dc * subcycle_time_us / 100 / pulse_incr_us) * pulse_incr_us
+    dcc = int(subcycle_time_us / 100 * dc)
     servo.set_servo(pin, dcc)
 
 
@@ -48,13 +49,13 @@ def main(argv=None):
         import sys
         argv = sys.argv
 
-    RPIO.setmode(RPIO.BOARD)
+    '''RPIO.setmode(RPIO.BOARD)
     RPIO.setup(p_roll, RPIO.OUT)
     RPIO.setup(p_pitch, RPIO.OUT)
     RPIO.setup(p_throttle, RPIO.OUT)
-    RPIO.setup(p_yaw, RPIO.OUT)
+    RPIO.setup(p_yaw, RPIO.OUT)'''
 
-    servo = PWM.Servo(dma_channel, subcycle_time_us, pulse_incr_us)
+    servo = PWM.Servo()
 
     dc_min = 5.0 - 0.25
     dc_max = 10.0 - 0.25
@@ -109,10 +110,10 @@ def main(argv=None):
         pwm_update(servo, p_throttle, dc_throttle)
         pwm_update(servo, p_yaw, dc_yaw)
 
-        servo.stop_servo(p_roll)
-        servo.stop_servo(p_pitch)
-        servo.stop_servo(p_throttle)
-        servo.stop_servo(p_yaw)
+    servo.stop_servo(p_roll)
+    servo.stop_servo(p_pitch)
+    servo.stop_servo(p_throttle)
+    servo.stop_servo(p_yaw)
 
 
 if __name__ == "__main__":
