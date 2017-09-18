@@ -58,7 +58,7 @@ def main(argv=None):
     dc_step = (dc_max - dc_min) / 1000.0
     dc_roll = (dc_max - dc_min) / 2.0
     dc_pitch = (dc_max - dc_min) / 2.0
-    dc_throttle = dc_min*1.01
+    dc_throttle = dc_min * 1.01
     dc_yaw = (dc_max - dc_min) / 2.0
 
     def dc_change(dc, type):
@@ -73,6 +73,10 @@ def main(argv=None):
         return dc
 
     while True:
+        pwm_update(pi, p_roll, dc_roll)
+        pwm_update(pi, p_pitch, dc_pitch)
+        pwm_update(pi, p_throttle, dc_throttle)
+        pwm_update(pi, p_yaw, dc_yaw)
         ch = read_single_keypress()
         print(ch, ord(ch))
         if (ch == '\x1b'):  # cannot display
@@ -101,10 +105,6 @@ def main(argv=None):
         elif (ch == 'l'):
             dc_yaw = dc_change(dc_yaw, '-')
             print("dc_yaw:", dc_yaw)
-        pwm_update(pi, p_roll, dc_roll)
-        pwm_update(pi, p_pitch, dc_pitch)
-        pwm_update(pi, p_throttle, dc_throttle)
-        pwm_update(pi, p_yaw, dc_yaw)
 
     pi.set_PWM_dutycycle(p_roll, 0)
     pi.set_PWM_dutycycle(p_pitch, 0)
