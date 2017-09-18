@@ -53,8 +53,8 @@ def main(argv=None):
     pi.set_PWM_range(p_throttle, subcycle_time_us)
     pi.set_PWM_range(p_yaw, subcycle_time_us)
 
-    dc_min = 0.0
-    dc_max = 10.0
+    dc_min = 4.55
+    dc_max = 20.0
     dc_step = (dc_max - dc_min) / 1000.0
     dc_roll = (dc_max - dc_min) / 2.0
     dc_pitch = (dc_max - dc_min) / 2.0
