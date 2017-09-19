@@ -62,7 +62,7 @@ class LD3320(LD3320_SPIDev):
         spi = self._spi
         spi.max_speed_hz = 1500000
         spi.no_cs = True
-        spi.clock_mode = 0b10
+        spi.mode = 0b10
         spi.bits_per_word = 8
         spi.lsb_first = False
 
