@@ -1,8 +1,55 @@
-from gpiozero import *
 import time
 
 
-class LD3320(SPIDevice):
+class LD3320_SPIDev:
+    """The LD3320 driver implemented by spidev module."""
+
+    def __init__(_self):
+        import spidev
+        dev = spidev.SpiDev()
+        dev.open(0, 0)
+        dev.bits_per_word = 8
+        dev.cshigh = False
+        dev.loop = False
+        dev.no_cs = False
+        dev.lsbfirst = False
+        dev.max_speed_hz = 7629
+        dev.mode = 0b10
+        dev.threewire = False
+        _self._spi = dev
+
+    def close(_self):
+        if _self._spi:
+            _self._spi.close()
+
+    def reset(_self):
+        pass
+
+    def read(_self, reg):
+        pass
+
+    def write(_self, reg, data):
+        pass
+
+    def read_print(_self, reg):
+        pass
+
+    def test(self):
+        self.reset()
+        self.read(0x06)
+        self.write(0x35, 0x33)
+        print("write 0x33")
+        self.write(0x1b, 0x55)
+        print("write 0x55")
+        self.write(0xb3, 0xaa)
+        print("write 0xaa")
+        self.read_print(0x35)
+        self.read_print(0x1b)
+        self.read_print(0xb3)
+        self.close()
+
+
+class LD3320(LD3320_SPIDev):
     """
     LD3320 SPI device driver.
     Author: Bob Yang (bob.yang.dev@gmail.com)
@@ -11,20 +58,23 @@ class LD3320(SPIDevice):
     """
 
     def __init__(self, **spi_args):
-        super(LD3320, self).__init__(clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
-        print("spi device: " + str(self._spi._device))
+        # super(LD3320, self).__init__(clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
+        super(LD3320, self).__init__()
+        print("spi device: " + str(self._spi))
         spi = self._spi
-        spi._device.max_speed_hz = 1500000
-        spi._device.no_cs = True
-        spi.clock_mode = 0b10
+        spi.max_speed_hz = 1500000
+        spi.no_cs = True
+        spi.mode = 0b10
         spi.bits_per_word = 8
-        spi.lsb_first = False
+        spi.lsbfirst = False
 
     def read(self, reg):
-        return self._spi.transfer([0x05, reg, 0])[2]
+        ll = self._spi.xfer([0x05, reg, 0])
+        print(ll)
+        return ll[2]
 
     def write(self, reg, data):
-        self._spi.write([0x04, reg, data])
+        self._spi.writebytes([0x04, reg, data])
 
     def reset(self):
         "Reset LD3320 registers"
@@ -43,6 +93,8 @@ class LD3320(SPIDevice):
         return data
 
     def test(self):
+        ld3320 = LD3320(port=0, device=0)
+        ld3320.initASR()
         ld3320.reset()
         b1 = ld3320.read_print(0x06)
         b2 = ld3320.read_print(0x06)
@@ -257,51 +309,3 @@ class LD3320(SPIDevice):
         intIndex = self.read(0x2b)
         print("intIndex: %s" % intIndex)
         return self.read(0xc5)
-
-
-class LD3320_SPIDev:
-    """The LD3320 driver implemented by spidev module."""
-
-    def __init__(_self):
-        import spidev
-        dev = spidev.SpiDev()
-        dev.open(0, 0)
-        dev.bits_per_word = 8
-        dev.cshigh = False
-        dev.loop = False
-        dev.no_cs = False
-        dev.lsbfirst = False
-        dev.max_speed_hz = 7629
-        dev.mode = 0b10
-        dev.threewire = False
-        _self.spi = dev
-
-    def close(_self):
-        if _self.spi:
-            _self.spi.close()
-
-    def reset(_self):
-        pass
-
-    def read(_self, reg):
-        pass
-
-    def write(_self, reg, data):
-        pass
-
-    def read_print(_self, reg):
-        pass
-
-    def test(self):
-        self.reset()
-        self.read(0x06)
-        self.write(0x35, 0x33)
-        print("write 0x33")
-        self.write(0x1b, 0x55)
-        print("write 0x55")
-        self.write(0xb3, 0xaa)
-        print("write 0xaa")
-        self.read_print(0x35)
-        self.read_print(0x1b)
-        self.read_print(0xb3)
-        self.close()
