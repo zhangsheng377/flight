@@ -69,7 +69,8 @@ class LD3320(LD3320_SPIDev):
         spi.lsbfirst = False
 
     def read(self, reg):
-        ll = self._spi.xfer([0x05, reg, 0])
+        self._spi.writebytes([0x05, reg, 0])
+        ll = self._spi.readbytes()
         print("read():", ll)
         return ll[2]
 
