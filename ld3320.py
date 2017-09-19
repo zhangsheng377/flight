@@ -69,7 +69,7 @@ class LD3320(LD3320_SPIDev):
         spi.lsbfirst = False
 
     def read(self, reg):
-        ll = self._spi.xfer2([0x05, reg, 0])
+        ll = self._spi.xfer([0x05, reg, 0])
         print(ll)
         return ll[2]
 
