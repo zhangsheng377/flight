@@ -70,7 +70,7 @@ class LD3320(LD3320_SPIDev):
 
     def read(self, reg):
         self._spi.writebytes([0x05, reg, 0])
-        ll = self._spi.readbytes()
+        ll = self._spi.readbytes(1)
         print("read():", ll)
         return ll[2]
 
