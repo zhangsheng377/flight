@@ -64,7 +64,7 @@ class LD3320(LD3320_SPIDev):
         spi.no_cs = True
         spi.mode = 0b10
         spi.bits_per_word = 8
-        spi.lsb_first = False
+        spi.lsbfirst = False
 
     def read(self, reg):
         return self._spi.transfer([0x05, reg, 0])[2]
