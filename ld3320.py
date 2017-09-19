@@ -67,7 +67,7 @@ class LD3320(LD3320_SPIDev):
         spi.lsbfirst = False
 
     def read(self, reg):
-        return self._spi.xfer([0x05, reg, 0])[2]
+        return self._spi.xfer([0x05, reg, 0])
 
     def write(self, reg, data):
         self._spi.xfer2([0x04, reg, data])
@@ -89,6 +89,8 @@ class LD3320(LD3320_SPIDev):
         return data
 
     def test(self):
+        ld3320 = LD3320(port=0, device=0)
+        ld3320.initASR()
         ld3320.reset()
         b1 = ld3320.read_print(0x06)
         b2 = ld3320.read_print(0x06)
