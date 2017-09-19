@@ -4,7 +4,7 @@ import time
 
 print("GPIO version: %s\n" % GPIO.VERSION)
 
-pin_int = 3
+pin_int = 8
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin_int, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 

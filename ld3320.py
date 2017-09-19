@@ -58,7 +58,7 @@ class LD3320(LD3320_SPIDev):
     def __init__(self, **spi_args):
         #super(LD3320, self).__init__(clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
         super(LD3320, self).__init__()
-        print("spi device: " + str(self._spi._device))
+        print("spi device: " + str(self._spi))
         spi = self._spi
         spi._device.max_speed_hz = 1500000
         spi._device.no_cs = True
