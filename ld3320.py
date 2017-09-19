@@ -75,7 +75,7 @@ class LD3320(LD3320_SPIDev):
         return ll[2]
 
     def write(self, reg, data):
-        self._spi.writebytes([0x04, reg, data])
+        self._spi.xfer([0x04, reg, data])
 
     def reset(self):
         "Reset LD3320 registers"
