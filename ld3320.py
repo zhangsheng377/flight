@@ -69,13 +69,10 @@ class LD3320(LD3320_SPIDev):
         spi.lsbfirst = False
 
     def read(self, reg):
-        self._spi.writebytes([0x05, reg, 0])
-        ll = self._spi.readbytes(3)
-        print("read():", ll)
-        return ll[2]
+        return self._spi.xfer([0x05, reg, 0])[2]
 
     def write(self, reg, data):
-        self._spi.xfer([0x04, reg, data])
+        self._spi.writebytes([0x04, reg, data])
 
     def reset(self):
         "Reset LD3320 registers"
