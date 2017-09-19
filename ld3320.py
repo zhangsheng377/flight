@@ -1,8 +1,8 @@
-from gpiozero import *
+from gpiozero import MCP3008
 import time
 
 
-class LD3320(SPIDevice):
+class LD3320(MCP3008):
     """
     LD3320 SPI device driver.
     Author: Bob Yang (bob.yang.dev@gmail.com)
