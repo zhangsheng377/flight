@@ -67,7 +67,7 @@ class LD3320(LD3320_SPIDev):
         spi.lsbfirst = False
 
     def read(self, reg):
-        return self._spi.transfer([0x05, reg, 0])[2]
+        return self._spi.xfer([0x05, reg, 0])[2]
 
     def write(self, reg, data):
         self._spi.write([0x04, reg, data])
