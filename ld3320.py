@@ -1,5 +1,6 @@
 import time
 
+
 class LD3320_SPIDev:
     """The LD3320 driver implemented by spidev module."""
 
@@ -47,6 +48,7 @@ class LD3320_SPIDev:
         self.read_print(0xb3)
         self.close()
 
+
 class LD3320(LD3320_SPIDev):
     """
     LD3320 SPI device driver.
@@ -56,7 +58,7 @@ class LD3320(LD3320_SPIDev):
     """
 
     def __init__(self, **spi_args):
-        #super(LD3320, self).__init__(clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
+        # super(LD3320, self).__init__(clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
         super(LD3320, self).__init__()
         print("spi device: " + str(self._spi))
         spi = self._spi
@@ -67,7 +69,9 @@ class LD3320(LD3320_SPIDev):
         spi.lsbfirst = False
 
     def read(self, reg):
-        return self._spi.xfer([0x05, reg, 0])
+        ll = self._spi.xfer([0x05, reg, 0])
+        print("read():", ll)
+        return ll[2]
 
     def write(self, reg, data):
         self._spi.xfer2([0x04, reg, data])
@@ -305,6 +309,3 @@ class LD3320(LD3320_SPIDev):
         intIndex = self.read(0x2b)
         print("intIndex: %s" % intIndex)
         return self.read(0xc5)
-
-
-
